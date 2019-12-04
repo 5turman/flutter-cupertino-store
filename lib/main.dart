@@ -20,6 +20,8 @@ import 'app.dart';
 import 'model/app_state_model.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   // This app is designed only to work vertically, so we limit
   // orientations to portrait up and down.
   SystemChrome.setPreferredOrientations(
@@ -27,7 +29,7 @@ void main() {
 
   return runApp(
     ChangeNotifierProvider<AppStateModel>(
-      builder: (context) => AppStateModel()..loadProducts(),
+      create: (context) => AppStateModel()..loadProducts(),
       child: CupertinoStoreApp(),
     ),
   );
