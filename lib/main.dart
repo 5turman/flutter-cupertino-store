@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:cupertino_store/model/products_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'app.dart';
-import 'model/app_state_model.dart';
+import 'model/cart.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,12 +26,16 @@ void main() {
   // This app is designed only to work vertically, so we limit
   // orientations to portrait up and down.
   SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
+  );
 
   return runApp(
-    ChangeNotifierProvider<AppStateModel>(
-      create: (context) => AppStateModel()..loadProducts(),
-      child: CupertinoStoreApp(),
+    Provider<ProductsRepository>.value(
+      value: ProductsRepository(),
+      child: ChangeNotifierProvider<Cart>(
+        create: (context) => Cart(),
+        child: CupertinoStoreApp(),
+      ),
     ),
   );
 }

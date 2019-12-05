@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/cupertino.dart';
+
 import 'product_list_tab.dart';
 import 'search_tab.dart';
 import 'shopping_cart_tab.dart';
@@ -47,31 +48,27 @@ class CupertinoStoreHomePage extends StatelessWidget {
         ],
       ),
       tabBuilder: (context, index) {
-        CupertinoTabView returnValue;
         switch (index) {
           case 0:
-            returnValue = CupertinoTabView(builder: (context) {
+            return CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
                 child: ProductListTab(),
               );
             });
-            break;
           case 1:
-            returnValue = CupertinoTabView(builder: (context) {
+            return CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
                 child: SearchTab(),
               );
             });
-            break;
           case 2:
-            returnValue = CupertinoTabView(builder: (context) {
+            return CupertinoTabView(builder: (context) {
               return CupertinoPageScaffold(
                 child: ShoppingCartTab(),
               );
             });
-            break;
         }
-        return returnValue;
+        throw UnimplementedError();
       },
     );
   }

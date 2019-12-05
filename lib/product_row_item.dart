@@ -15,7 +15,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import 'model/app_state_model.dart';
+import 'model/cart.dart';
 import 'model/product.dart';
 import 'styles.dart';
 
@@ -76,8 +76,8 @@ class ProductRowItem extends StatelessWidget {
           CupertinoButton(
             padding: EdgeInsets.zero,
             onPressed: () {
-              final model = Provider.of<AppStateModel>(context);
-              model.addProductToCart(product.id);
+              final cart = Provider.of<Cart>(context, listen: false);
+              cart.addProduct(product);
             },
             child: const Icon(
               CupertinoIcons.plus_circled,

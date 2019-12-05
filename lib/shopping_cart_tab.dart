@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:cupertino_store/model/cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'model/app_state_model.dart';
 import 'model/product.dart';
 import 'styles.dart';
 
@@ -153,11 +153,9 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
     );
   }
 
-  SliverChildBuilderDelegate _buildSliverChildBuilderDelegate(
-      AppStateModel model) {
+  SliverChildBuilderDelegate _buildSliverChildBuilderDelegate(Cart cart) {
     return SliverChildBuilderDelegate(
       (context, index) {
-        final productIndex = index - 4;
         switch (index) {
           case 0:
             return Padding(
@@ -180,17 +178,17 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
               child: _buildDateAndTimePicker(context),
             );
           default:
-            if (model.productsInCart.length > productIndex) {
+            final productIndex = index - 4;
+            if (cart.products.length > productIndex) {
               return ShoppingCartItem(
                 index: index,
-                product: model.getProductById(
-                    model.productsInCart.keys.toList()[productIndex]),
-                quantity: model.productsInCart.values.toList()[productIndex],
-                lastItem: productIndex == model.productsInCart.length - 1,
+                product: cart.products.keys.toList()[productIndex],
+                quantity: cart.products.values.toList()[productIndex],
+                lastItem: productIndex == cart.products.length - 1,
                 formatter: _currencyFormat,
               );
-            } else if (model.productsInCart.keys.length == productIndex &&
-                model.productsInCart.isNotEmpty) {
+            } else if (cart.products.keys.length == productIndex &&
+                cart.products.isNotEmpty) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -201,17 +199,17 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                       children: <Widget>[
                         Text(
                           'Shipping '
-                          '${_currencyFormat.format(model.shippingCost)}',
+                          '${_currencyFormat.format(cart.shippingCost)}',
                           style: Styles.productRowItemPrice,
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          'Tax ${_currencyFormat.format(model.tax)}',
+                          'Tax ${_currencyFormat.format(cart.tax)}',
                           style: Styles.productRowItemPrice,
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          'Total  ${_currencyFormat.format(model.totalCost)}',
+                          'Total  ${_currencyFormat.format(cart.totalCost)}',
                           style: Styles.productRowTotal,
                         ),
                       ],
@@ -228,8 +226,8 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppStateModel>(
-      builder: (context, model, child) {
+    return Consumer<Cart>(
+      builder: (context, cart, child) {
         return CustomScrollView(
           slivers: <Widget>[
             const CupertinoSliverNavigationBar(
@@ -239,7 +237,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
               top: false,
               minimum: const EdgeInsets.only(top: 4),
               sliver: SliverList(
-                delegate: _buildSliverChildBuilderDelegate(model),
+                delegate: _buildSliverChildBuilderDelegate(cart),
               ),
             )
           ],

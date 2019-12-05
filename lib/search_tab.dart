@@ -15,7 +15,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import 'model/app_state_model.dart';
+import 'model/product.dart';
+import 'model/products_repository.dart';
 import 'product_row_item.dart';
 import 'search_bar.dart';
 import 'styles.dart';
@@ -28,15 +29,18 @@ class SearchTab extends StatefulWidget {
 }
 
 class _SearchTabState extends State<SearchTab> {
+  ProductsRepository _repository;
   TextEditingController _controller;
   FocusNode _focusNode;
-  String _terms = '';
+  List<Product> _results;
 
   @override
   void initState() {
     super.initState();
+    _repository = Provider.of<ProductsRepository>(context, listen: false);
     _controller = TextEditingController()..addListener(_onTextChanged);
     _focusNode = FocusNode();
+    _results = _repository.getProducts();
   }
 
   @override
@@ -48,7 +52,7 @@ class _SearchTabState extends State<SearchTab> {
 
   void _onTextChanged() {
     setState(() {
-      _terms = _controller.text;
+      _results = _repository.search(_controller.text);
     });
   }
 
@@ -64,9 +68,6 @@ class _SearchTabState extends State<SearchTab> {
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<AppStateModel>(context);
-    final results = model.search(_terms);
-
     return DecoratedBox(
       decoration: const BoxDecoration(
         color: Styles.scaffoldBackground,
@@ -78,11 +79,11 @@ class _SearchTabState extends State<SearchTab> {
             Expanded(
               child: ListView.builder(
                 itemBuilder: (context, index) => ProductRowItem(
-                      index: index,
-                      product: results[index],
-                      lastItem: index == results.length - 1,
-                    ),
-                itemCount: results.length,
+                  index: index,
+                  product: _results[index],
+                  lastItem: index == _results.length - 1,
+                ),
+                itemCount: _results.length,
               ),
             ),
           ],
