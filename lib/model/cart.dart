@@ -20,25 +20,25 @@ const double _salesTaxRate = 0.06;
 const double _shippingCostPerItem = 7;
 
 class Cart extends foundation.ChangeNotifier {
-  // The IDs and quantities of products currently in the cart.
-  final _products = <Product, int>{};
+  // The products and quantities of products currently in the cart.
+  final _productCounts = <Product, int>{};
 
-  Map<Product, int> get products {
-    return Map.from(_products);
+  List<Product> get products {
+    return _productCounts.keys.toList(growable: false);
   }
 
   // Total number of items in the cart.
   int get totalCartQuantity {
-    return _products.values.fold(0, (accumulator, value) {
+    return _productCounts.values.fold(0, (accumulator, value) {
       return accumulator + value;
     });
   }
 
   // Totaled prices of the items in the cart.
   double get subtotalCost {
-    return _products.keys.map((product) {
+    return _productCounts.keys.map((product) {
       // Extended price for product line
-      return product.price * _products[product];
+      return product.price * _productCounts[product];
     }).fold(0, (accumulator, extendedPrice) {
       return accumulator + extendedPrice;
     });
@@ -47,7 +47,7 @@ class Cart extends foundation.ChangeNotifier {
   // Total shipping cost for the items in the cart.
   double get shippingCost {
     return _shippingCostPerItem *
-        _products.values.fold(0.0, (accumulator, itemCount) {
+        _productCounts.values.fold(0.0, (accumulator, itemCount) {
           return accumulator + itemCount;
         });
   }
@@ -62,12 +62,16 @@ class Cart extends foundation.ChangeNotifier {
     return subtotalCost + shippingCost + tax;
   }
 
+  int getCount(Product product) {
+    return _productCounts[product];
+  }
+
   // Adds a product to the cart.
   void addProduct(Product product) {
-    if (!_products.containsKey(product)) {
-      _products[product] = 1;
+    if (!_productCounts.containsKey(product)) {
+      _productCounts[product] = 1;
     } else {
-      _products[product]++;
+      _productCounts[product]++;
     }
 
     notifyListeners();
@@ -75,11 +79,11 @@ class Cart extends foundation.ChangeNotifier {
 
   // Removes an item from the cart.
   void removeItem(Product product) {
-    if (_products.containsKey(product)) {
-      if (_products[product] == 1) {
-        _products.remove(product);
+    if (_productCounts.containsKey(product)) {
+      if (_productCounts[product] == 1) {
+        _productCounts.remove(product);
       } else {
-        _products[product]--;
+        _productCounts[product]--;
       }
 
       notifyListeners();
@@ -88,7 +92,7 @@ class Cart extends foundation.ChangeNotifier {
 
   // Removes everything from the cart.
   void clear() {
-    _products.clear();
+    _productCounts.clear();
     notifyListeners();
   }
 }

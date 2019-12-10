@@ -179,16 +179,17 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
             );
           default:
             final productIndex = index - 4;
-            if (cart.products.length > productIndex) {
+            final products = cart.products;
+            if (productIndex < products.length) {
+              final product = products[productIndex];
               return ShoppingCartItem(
                 index: index,
-                product: cart.products.keys.toList()[productIndex],
-                quantity: cart.products.values.toList()[productIndex],
-                lastItem: productIndex == cart.products.length - 1,
+                product: product,
+                quantity: cart.getCount(product),
+                lastItem: productIndex == products.length - 1,
                 formatter: _currencyFormat,
               );
-            } else if (cart.products.keys.length == productIndex &&
-                cart.products.isNotEmpty) {
+            } else if (productIndex == products.length && products.isNotEmpty) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
