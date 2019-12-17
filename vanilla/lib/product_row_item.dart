@@ -13,10 +13,10 @@
 // limitations under the License.
 
 import 'package:flutter/cupertino.dart';
+import 'package:products_domain/products_domain.dart';
 import 'package:provider/provider.dart';
 
 import 'model/cart.dart';
-import 'model/product.dart';
 import 'styles.dart';
 
 class ProductRowItem extends StatelessWidget {

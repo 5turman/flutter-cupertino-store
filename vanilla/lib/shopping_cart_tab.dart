@@ -15,9 +15,9 @@
 import 'package:cupertino_store/model/cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:products_domain/products_domain.dart';
 import 'package:provider/provider.dart';
 
-import 'model/product.dart';
 import 'styles.dart';
 
 const double _kDateTimePickerHeight = 216;

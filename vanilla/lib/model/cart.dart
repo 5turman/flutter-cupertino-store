@@ -13,8 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/foundation.dart' as foundation;
-
-import 'product.dart';
+import 'package:products_domain/products_domain.dart';
 
 const double _salesTaxRate = 0.06;
 const double _shippingCostPerItem = 7;

@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:cupertino_store/model/products_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:products_domain/products_domain.dart';
 import 'package:provider/provider.dart';
 
 import 'app.dart';

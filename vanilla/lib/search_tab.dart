@@ -13,10 +13,9 @@
 // limitations under the License.
 
 import 'package:flutter/cupertino.dart';
+import 'package:products_domain/products_domain.dart';
 import 'package:provider/provider.dart';
 
-import 'model/product.dart';
-import 'model/products_repository.dart';
 import 'product_row_item.dart';
 import 'search_bar.dart';
 import 'styles.dart';

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import 'package:built_value/built_value.dart';
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 part 'product.g.dart';
 
